@@ -6,23 +6,29 @@ from datetime import datetime, timedelta
 path = "C:/Users/micah/Downloads/_Seminar 03 - Documentation book/"
 
 # Define the names of the folders to create and their associated file extensions
+
 folders = {
-"Current": set(),
-"Images": {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".eps", ".raw", ".cr2", ".nef", ".orf", ".sr2", ".webp", ".svg"},
-"Text Files": {".txt", ".doc", ".docx", ".log", ".md", ".opml"},
-"Presentation": {".ppt", ".pptx"},
-"Data Files": {".csv", ".key", ".keychain", ".dat", ".sdf", ".tar", ".xml", ".vcf", ".json", ".bib", ".tid"},
-"Music": {".aif", ".iff", ".m3u", ".m4a", ".mid", ".mp3", ".mpa", ".wav", ".wma"},
-"Videos": {".3g2", ".3gp", ".asf", ".avi", ".flv", ".m4v", ".mov", ".mp4", ".mpg", ".rm"},
-"Compressed Files": {".zip", ".rar", ".7z", ".bz2", ".gz", ".tar.gz"},
-"Disk Image Files": {".dmg", ".iso"},
-"Executables": {".exe", ".jar", ".msi", ".deb"},
-"System Files": {".dll", ".sys", ".cfg", ".ini", ".plist", ".folder", ".flatpakref", ".xpi"},
-"Database": {".kdbx"},
-"Misc Files": {".bak", ".tmp", ".crdownload", ".part", ""},
-"Android App Package": {".apk"},
-"Web Files": {".html", ".css", ".js"}
+    "Current": set(),
+    "Documents": {".doc", ".docx", ".txt", ".md", ".opml", ".tex", ".bib"},
+    "Presentations": {".ppt", ".pptx", ".key", ".odp"},
+    "Spreadsheets": {".xls", ".xlsx", ".csv"},
+    "Images": {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".svg"},
+    "Vector Graphics": {".ai", ".eps"},
+    "pdfs": {".pdf"},
+    "Raster Graphics": {".psd", ".raw", ".cr2", ".nef", ".orf", ".sr2"},
+    "Video": {".avi", ".mp4", ".mov", ".wmv", ".mkv", ".flv", ".webm", ".mpg", ".mpeg", ".3gp"},
+    "Audio": {".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac", ".wma"},
+    "Code": {".py", ".ipynb", ".java", ".cpp", ".c", ".h", ".cs", ".xml", ".json", ".yaml", ".yml", ".sql", ".rb", ".pl", ".sh", ".bat", ".cmd", ".ps1", ".dockerfile", ".fig", ".js"},
+    "Web Files": {".html", ".css", ".js", ".php"},
+    "Database": {".sqlite", ".db", ".sql", ".kdbx"},
+    "Executable Files": {".exe", ".msi", ".deb", ".dmg", ".appimage", ".sh", ".apk", ".xpi"},
+    "System Files": {".ini", ".cfg", ".plist", ".log", ".env", ".desktop", ".folder", ".flatpakref"},
+    "Compressed Files": {".zip", ".tar", ".gz", ".7z", ".rar", ".deb", ".rpm"},
+    "Disk Images": {".iso", ".img", ".vmdk"},
+    "Other": {".tid", ".vcf"},
+    "Miscellaneous": set()
 }
+
 
 # Create Current folder if it doesn't exist
 current_folder = os.path.join(path, "Current")
