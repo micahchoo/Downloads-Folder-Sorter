@@ -30,26 +30,27 @@ folders = {
 
 # Check if the folder names from the `folders` dictionary are already present
 for folder_name, extensions in folders.items():
+    # Skip the Miscellaneous and Old_Folders folders
+    if folder_name in {"Miscellaneous", "Old_Folders"}:
+        continue
     # Create the folder for the extension if it does not exist
     if not os.path.exists(os.path.join(path, folder_name)):
         os.makedirs(os.path.join(path, folder_name))
-    else:
-        continue
-    
-# Create the Folders folder if it doesn't exist
-folders_folder = os.path.join(path, "Old_Folders")
-if not os.path.exists(folders_folder):
-    os.makedirs(folders_folder)
 
+# Create the Miscellaneous and Old_Folders folders if they don't exist
+for folder_name in ["Miscellaneous", "Old_Folders"]:
+    if not os.path.exists(os.path.join(path, folder_name)):
+        os.makedirs(os.path.join(path, folder_name))
+        
 # Set the time threshold to 90 days ago
-threshold = timedelta(days=90)
+threshold = timedelta(days=30)
 
 # Loop over all files in the path
 for filename in os.listdir(path):
     filepath = os.path.join(path, filename)
     # Check if it is older than the threshold
     file_modification_time = datetime.fromtimestamp(os.path.getmtime(filepath))
-    if datetime.now() - file_modification_time < threshold:
+    if datetime.now() - file_modification_time > threshold:
         # If it's a file, determine its extension
         if os.path.isfile(filepath):
             ext = os.path.splitext(filename)[1]
@@ -58,7 +59,7 @@ for filename in os.listdir(path):
                 found = False
                 for folder_name, extensions in folders.items():
                     # Skip the Miscellaneous and folders from the 'folders' dictionary
-                    if folder_name == "Miscellaneous" or folder_name in folders:
+                    if folder_name in {"Miscellaneous", "Old_Folders"}:
                         continue
                     # Check if the extension is in the list for this folder
                     if ext in extensions:
