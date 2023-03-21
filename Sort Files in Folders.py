@@ -12,7 +12,7 @@ folders = {
     "Spreadsheets": {".xls", ".xlsx", ".csv"},
     "Images": {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".svg"},
     "Vector Graphics": {".ai", ".eps"},
-    #"pdfs": {".pdf"},
+    "pdfs": {".pdf"},
     "Raster Graphics": {".psd", ".raw", ".cr2", ".nef", ".orf", ".sr2"},
     "Video": {".avi", ".mp4", ".mov", ".wmv", ".mkv", ".flv", ".webm", ".mpg", ".mpeg", ".3gp"},
     "Audio": {".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac", ".wma"},
@@ -25,7 +25,8 @@ folders = {
     "Disk Images": {".iso", ".img", ".vmdk"},
     "Other": {".tid", ".vcf"},
     "Miscellaneous": set(),
-    "Old_Folders": set()
+    "Old_Folders": set(),
+    "Meta": {" "}
 }
 
 # Check if the folder names from the `folders` dictionary are already present
@@ -50,33 +51,27 @@ for filename in os.listdir(path):
     filepath = os.path.join(path, filename)
     # Check if it is older than the threshold
     file_modification_time = datetime.fromtimestamp(os.path.getmtime(filepath))
-    if datetime.now() - file_modification_time > threshold:
-        # If it's a file, determine its extension
-        if os.path.isfile(filepath):
-            ext = os.path.splitext(filename)[1]
-            # If the extension is in the dictionary, move the file to the appropriate folder
-            if ext in folders:
-                found = False
-                for folder_name, extensions in folders.items():
-                    # Skip the Miscellaneous and folders from the 'folders' dictionary
-                    if folder_name in {"Miscellaneous", "Old_Folders"}:
-                        continue
-                    # Check if the extension is in the list for this folder
-                    if ext in extensions:
-                        # Move the file to the appropriate folder
-                        folder_path = os.path.join(path, folder_name)
-                        shutil.move(filepath, os.path.join(folder_path, filename))
-                        found = True
-                        break
-                # If the extension is not in any of the folders in the dictionary, move it to the Miscellaneous folder
-                if not found:
-                    shutil.move(filepath, os.path.join(path, "Miscellaneous", filename))
-            # If the extension is not in the dictionary, move it to the Miscellaneous folder
-            else:
-                shutil.move(filepath, os.path.join(path, "Miscellaneous", filename))
-        # If it's a folder and not in the 'folders' dictionary, move it to the Old_Folders folder
-        elif os.path.isdir(filepath) and filename not in folders:
-            shutil.move(filepath, os.path.join(path, "Old_Folders", filename))
-    # If it is not older than the threshold, go to the next file
-    else:
+    if datetime.now() - file_modification_time <= threshold:
         continue
+    
+    if os.path.isfile(filepath):
+        # If it's a file, determine its extension
+        ext = os.path.splitext(filename)[1]
+        folder_name = None
+        # Find the folder that corresponds to the extension
+        for name, extensions in folders.items():
+            if name in {"Miscellaneous", "Old_Folders"}:
+                continue
+            if ext in extensions:
+                folder_name = name
+                break
+        # If the extension is not in any of the folders in the dictionary, move it to the Miscellaneous folder
+        if folder_name is None:
+            folder_name = "Miscellaneous"
+        # Move the file to the appropriate folder
+        folder_path = os.path.join(path, folder_name)
+        shutil.move(filepath, os.path.join(folder_path, filename))
+        
+    elif os.path.isdir(filepath) and filename not in folders:
+        # If it's a folder and not in the 'folders' dictionary, move it to the Old_Folders folder
+        shutil.move(filepath, os.path.join(path, "Old_Folders", filename))
