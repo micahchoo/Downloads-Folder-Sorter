@@ -71,3 +71,23 @@ If you encounter any issues with the program, please check the following:
   -  Make sure that you have edited the folders dictionary to add or remove folders and their associated file extensions as needed.
   -  Make sure that you have saved the changes to the organize_files.py file before running the program.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if you made it all the way here, i'm assuming you are looking for what is in the [basement](https://github.com/micahchoo/Downloads-Folder-Sorter/wiki/Fever-Dream-of-the-Folder-Sorter)
