@@ -1,15 +1,4 @@
-I found this podcast 
-[ARTISTS and HACKERS](https://www.artistsandhackers.org/Critical-Code)
-i am enthralled by the first episode.
-[Anuoluwapo Karounwi](https://github.com/anoniscoding/) has made a programming language in Nigerian
-
-Who even has heard of such a thing? I remember when I and S were dreaming of such a thing.
-Sarah Groff Hennigh-Palermo, Ramsey Nasser, Daniel Temkin, and Anuoluwapo Karounwi. all four of them make programming languages. 
-I want to make a programming language too
-
-
-
-
+I have started to play around with Olive
 
 
 i̴m̸p̸o̵r̵t̴ ̷o̷s̵
