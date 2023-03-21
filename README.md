@@ -2,6 +2,7 @@
 
 This File and Folder Sorter is a Python program that organizes files in a specified directory into folders based on their file extensions. It is useful for individuals who have a cluttered downloads folder or other directories with a variety of file types. It sorts any type of files into their respective Folders based on date or use-case. Helps those who have a lot of files to manage. You can modify this folder classification according to your specific use case by adding or removing file extensions within each category to better suit your needs as a doctor, designer, or any other use-case. 
 
+![Made primarily by AI](./6a39acd8ffe0b82f1bc6d43f0bf0fb1383c9e9fd/AI%20Labels%20-%20Human%20and%20AI%20-%20Expanded%20.svg)
 
 ## Requirements
 
