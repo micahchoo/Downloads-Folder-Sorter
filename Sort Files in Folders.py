@@ -1,7 +1,6 @@
 import os
 import shutil
 from datetime import datetime, timedelta
-
 # Define the path to the directory to organize
 path = "C:/Users/micah/Downloads/_Seminar 03 - Documentation book/"
 
