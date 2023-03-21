@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 path = "C:/Users/micah/Downloads/_Seminar 03 - Documentation book/"
 
 # Define the names of the folders to create and their associated file extensions
-
 folders = {
     "Current": set(),
     "Documents": {".doc", ".docx", ".txt", ".md", ".opml", ".tex", ".bib"},
@@ -26,34 +25,35 @@ folders = {
     "Compressed Files": {".zip", ".tar", ".gz", ".7z", ".rar", ".deb", ".rpm"},
     "Disk Images": {".iso", ".img", ".vmdk"},
     "Other": {".tid", ".vcf"},
-    "Miscellaneous": set()
+    "Miscellaneous": set(),
+    "Folders": set()
 }
 
 
-# Create Current folder if it doesn't exist
-current_folder = os.path.join(path, "Current")
-if not os.path.exists(current_folder):
-    os.makedirs(current_folder)
-
 # Create folders for the extensions
 for folder_name, extensions in folders.items():
+    if folder_name == "Miscellaneous":
+        continue
     folder_path = os.path.join(path, folder_name)
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
-current_threshold = timedelta(days=90)
+# Create Folders folder if it doesn't exist
+folders_folder = os.path.join(path, "Folders")
+if not os.path.exists(folders_folder):
+    os.makedirs(folders_folder)
+
+threshold = timedelta(days=30)
 for filename in os.listdir(path):
     filepath = os.path.join(path, filename)
     if os.path.isfile(filepath):
         ext = os.path.splitext(filename)[1]
-        if ext in folders["Current"]:
-            shutil.move(filepath, os.path.join(current_folder, filename))
-        elif ext in folders["Miscellaneous"]:
+        if ext in folders["Miscellaneous"]:
             shutil.move(filepath, os.path.join(path, "Miscellaneous", filename))
-        else:
+        elif ext in folders:
             found = False
             for folder_name, extensions in folders.items():
-                if folder_name == "Current" or folder_name == "Miscellaneous":
+                if folder_name == "Miscellaneous":
                     continue
                 if ext in extensions:
                     folder_path = os.path.join(path, folder_name)
@@ -62,5 +62,10 @@ for filename in os.listdir(path):
                     break
             if not found:
                 file_modification_time = datetime.fromtimestamp(os.path.getmtime(filepath))
-                if datetime.now() - file_modification_time < current_threshold:
-                    shutil.move(filepath, os.path.join(current_folder, filename))
+                if datetime.now() - file_modification_time < threshold:
+                    shutil.move(filepath, os.path.join(path, "Folders", filename))
+                else:
+                    folder_path = os.path.join(path, "Folders", "Old_Folders")
+                    if not os.path.exists(folder_path):
+                        os.makedirs(folder_path)
+                    shutil.move(filepath, os.path.join(folder_path, filename))
