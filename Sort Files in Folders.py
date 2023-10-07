@@ -1,8 +1,9 @@
 import os
 import shutil
 from datetime import datetime, timedelta
+
 # Define the path to the directory to organize
-path = "C:/Users/micah/Downloads/_Seminar 03 - Documentation book/"
+path = "C:/Users/micah/Downloads/"
 
 # Define the names of the folders to create and their associated file extensions
 folders = {
@@ -42,8 +43,8 @@ for folder_name in ["Miscellaneous", "Old_Folders"]:
     if not os.path.exists(os.path.join(path, folder_name)):
         os.makedirs(os.path.join(path, folder_name))
         
-# Set the time threshold to 90 days ago
-threshold = timedelta(days=30)
+# Set the time threshold to 15 days ago
+threshold = timedelta(days=15)
 
 # Loop over all files in the path
 for filename in os.listdir(path):
