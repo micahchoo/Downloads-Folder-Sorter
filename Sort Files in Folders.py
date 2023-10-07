@@ -29,49 +29,39 @@ folders = {
     "Meta": {" "}
 }
 
-# Check if the folder names from the `folders` dictionary are already present
+# Create the folders defined in the `folders` dictionary
 for folder_name, extensions in folders.items():
-    # Skip the Miscellaneous and Old_Folders folders
-    if folder_name in {"Miscellaneous", "Old_Folders"}:
-        continue
-    # Create the folder for the extension if it does not exist
-    if not os.path.exists(os.path.join(path, folder_name)):
-        os.makedirs(os.path.join(path, folder_name))
+    folder_path = os.path.join(path, folder_name)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
 
-# Create the Miscellaneous and Old_Folders folders if they don't exist
-for folder_name in ["Miscellaneous", "Old_Folders"]:
-    if not os.path.exists(os.path.join(path, folder_name)):
-        os.makedirs(os.path.join(path, folder_name))
-        
 # Set the time threshold to 15 days ago
 threshold = timedelta(days=15)
 
-# Loop over all files in the path
-for filename in os.listdir(path):
-    filepath = os.path.join(path, filename)
-    # Check if it is older than the threshold
-    file_modification_time = datetime.fromtimestamp(os.path.getmtime(filepath))
-    if datetime.now() - file_modification_time <= threshold:
+# Loop over all files and directories in the path
+for file in os.scandir(path):
+    file_path = file.path
+    file_modification_time = datetime.fromtimestamp(file.stat().st_mtime)
+    if file_modification_time > threshold:
         continue
     
-    if os.path.isfile(filepath):
-        # If it's a file, determine its extension
-        ext = os.path.splitext(filename)[1]
+    # Check if the file is older than the threshold
+    if file_modification_time <= threshold:
+        # Move the file to the appropriate folder
         folder_name = None
-        # Find the folder that corresponds to the extension
         for name, extensions in folders.items():
-            if name in {"Miscellaneous", "Old_Folders"}:
-                continue
-            if ext in extensions:
+            if file.name.endswith(extensions):
                 folder_name = name
                 break
-        # If the extension is not in any of the folders in the dictionary, move it to the Miscellaneous folder
         if folder_name is None:
             folder_name = "Miscellaneous"
-        # Move the file to the appropriate folder
-        folder_path = os.path.join(path, folder_name)
-        shutil.move(filepath, os.path.join(folder_path, filename))
-        
-    elif os.path.isdir(filepath) and filename not in folders:
-        # If it's a folder and not in the 'folders' dictionary, move it to the Old_Folders folder
-        shutil.move(filepath, os.path.join(path, "Old_Folders", filename))
+        shutil.move(file_path, os.path.join(path, folder_name, file.name))
+    
+    # Check if the file is a directory and not in the 'folders' dictionary
+    elif file.is_directory() and file.name not in folders:
+        # Move the directory to the Old_Folders folder
+        shutil.move(file_path, os.path.join(path, "Old_Folders", file.name))
+
+# Move the most recently modified file in the Old_Folders directory to the Miscellaneous directory
+most_recent_file = max(os.listdir(os.path.join(path, "Old_Folders")), key=os.path.getmtime)
+shutil.move(os.path.join(path, "Old_Folders", most_recent_file), os.path.join(path, "Miscellaneous", most_recent_file))
